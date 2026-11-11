@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#171a16" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <title>The Last Post — A Battlefield Crossing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js"}}</script>
+</head>
+<body>
+  <main id="game" aria-label="The Last Post game">
+    <canvas id="world"></canvas>
+    <div class="film-grain"></div>
+    <div class="vignette"></div>
+
+    <section class="topbar" id="topbar" aria-label="Mission status">
+      <div class="brand"><span class="brand-mark">LP</span><span>FIELD DISPATCH <i>/ 1917</i></span></div>
+      <div class="mission"><span class="live-dot"></span><span id="mission-label">CROSS NO MAN'S LAND</span></div>
+      <button class="icon-button" id="pause-button" aria-label="Pause game"><span class="pause-glyph">Ⅱ</span></button>
+    </section>
+
+    <section class="objective-card" id="objective-card">
+      <div class="eyebrow">YOUR ORDERS <span class="order-line"></span></div>
+      <div class="objective-title">Deliver the letter</div>
+      <div class="objective-sub">Reach the command post beyond the wire.</div>
+      <div class="distance-row"><span class="distance-icon">↗</span><span id="distance">90 m TO COMMAND</span></div>
+    </section>
+
+    <section class="threat-card" id="threat-card">
+      <div class="threat-heading"><span>DETECTION</span><span class="threat-state" id="threat-state">UNSEEN</span></div>
+      <div class="meter"><div class="meter-fill" id="detection-fill"></div></div>
+      <div class="threat-note" id="threat-note">Keep low. Stay out of the open.</div>
+    </section>
+
+    <div class="center-warning" id="center-warning" aria-live="polite"></div>
+    <div class="damage-flash" id="damage-flash"></div>
+
+    <section class="bottom-left">
+      <div class="health-wrap"><div class="health-icon">✚</div><div class="health-copy"><div class="health-label">VITALS</div><div class="health-bar"><span id="health-fill"></span></div></div><span class="health-value" id="health-value">100</span></div>
+      <div class="inventory"><div class="inventory-icon">⌁</div><div><div class="inventory-label">FIELD KIT</div><div class="inventory-items"><span class="inventory-item active" id="weapon-item"><b>01</b> SERVICE RIFLE <em id="ammo-count">03</em></span><span class="inventory-item"><b>02</b> DISPATCH <em>SEALED</em></span></div></div></div>
+    </section>
+
+    <section class="bottom-center" id="controls-hint"><span class="key">W A S D</span><span>MOVE</span><i></i><span class="key">SHIFT</span><span>LOW CRAWL</span><i></i><span class="key">CLICK</span><span>AIM / FIRE</span></section>
+
+    <div class="reticle" id="reticle"><span></span></div>
+    <div class="touch-controls" id="touch-controls" aria-label="Touch controls">
+      <div class="joystick" id="joystick"><div class="joy-knob" id="joy-knob"></div></div>
+      <button class="touch-crouch" id="touch-crouch">LOW</button>
+      <button class="touch-fire" id="touch-fire">FIRE</button>
+    </div>
+
+    <section class="overlay" id="start-screen">
+      <div class="overlay-card intro-card">
+        <div class="chapter">A WESTERN FRONT DISPATCH <span>—</span> 04:17 AM</div>
+        <div class="title-lockup"><div class="title-rule"></div><h1>THE LAST<br /><em>POST</em></h1><div class="title-stamp">NO. 07<br />FRONT<br />LINE</div></div>
+        <p class="story">The line is breaking. Somewhere across this field, a commander is waiting for word. You are Elias Bell — too old for this war, but not too old to carry one last message.</p>
+        <div class="briefing"><span class="briefing-mark">✉</span><span>ONE LETTER. ONE CROSSING.<br /><b>DON'T LET IT FALL INTO ENEMY HANDS.</b></span></div>
+        <button class="primary-button" id="start-button"><span>BEGIN CROSSING</span><span class="button-arrow">→</span></button>
+        <div class="start-foot"><span>WASD TO MOVE · SHIFT TO CRAWL</span><span>THE FRONT · SECTOR 7</span></div>
+      </div>
+      <div class="overlay-caption">A STEALTH EXPERIENCE <span>•</span> 1917</div>
+    </section>
+
+    <section class="overlay hidden" id="pause-screen">
+      <div class="overlay-card pause-card"><div class="chapter">FIELD DISPATCH <span>—</span> TEMPORARILY HELD</div><h2>Catch your breath.</h2><p>The guns haven't stopped. Take a moment, then finish the crossing.</p><button class="primary-button" id="resume-button"><span>RESUME MISSION</span><span class="button-arrow">→</span></button><button class="text-button" id="restart-button">RESTART FROM THE BEGINNING</button></div>
+    </section>
+
+    <section class="overlay hidden" id="end-screen">
+      <div class="overlay-card end-card"><div class="chapter" id="end-kicker">FIELD DISPATCH <span>—</span> DELIVERED</div><div class="end-emblem" id="end-emblem">✉</div><h2 id="end-title">The letter arrived.</h2><p id="end-copy">The commander breaks the seal. For a moment, the guns seem very far away.</p><button class="primary-button" id="again-button"><span>PLAY AGAIN</span><span class="button-arrow">→</span></button></div>
+    </section>
+
+    <div class="toast" id="toast" role="status"></div>
+  </main>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>
